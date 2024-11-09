@@ -3,9 +3,9 @@
 
 
 ### here where you load modules.
-module load TeachEnv/2022a
-module load gcc/13.2.0
 module load cmake
+module load gcc/10.3.0   
+module load rocm/4.2.0
 
 
 
@@ -35,7 +35,7 @@ SHAREDDIR=/home/l/lcl_uotce4sp4//ce4sp4starter/
 mkdir build
 # shellcheck disable=SC2164
 cd build
-cmake  -DCMAKE_PREFIX_PATH=${SHAREDDIR}/libpfm4/ -DPROFILING_ENABLED=ON  -DCMAKE_BUILD_TYPE=Release  ..
+/home/l/lcl_uotce4sp4//ce4sp4starter/cmake/bin/cmake  -DCMAKE_PREFIX_PATH=${SHAREDDIR}/libpfm4/ -DPROFILING_ENABLED=ON  -DCMAKE_BUILD_TYPE=Release  ..
 make -j 4
 
 cd ..

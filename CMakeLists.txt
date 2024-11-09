@@ -59,7 +59,7 @@ add_executable(vec_mul_vec
 target_include_directories(vec_mul_vec PUBLIC ${OpenCL_INCLUDE_DIRS})
 target_link_directories(vec_mul_vec PUBLIC ${OpenCL_LIBRARY})
 
-
+message (STATUS "=-=========================== ${OpenCL_INCLUDE_DIRS}")
 
 target_link_libraries(vec_mul_vec
         benchmark::benchmark

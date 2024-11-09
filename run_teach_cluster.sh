@@ -1,18 +1,21 @@
 #!/bin/bash
 
 ##################### SLURM (do not change) v  #####################
-#SBATCH --cpus-per-task=8
-#SBATCH --export=ALL
-#SBATCH --job-name="vectut"
 #SBATCH --nodes=1
-#SBATCH --output="multithreadtut.%j.%N.out"
+#SBATCH --gpus-per-node=1
+#SBATCH --export=ALL
+#SBATCH --job-name="gputut"
+#SBATCH --nodes=1
+#SBATCH --output="gputut.%j.%N.out"
 #SBATCH -t 00:15:00
 ##################### SLURM (do not change) ^  #####################
 
 
-module load TeachEnv/2022a
-module load gcc/13.2.0
+
 module load cmake
+module load gcc/10.3.0
+module load rocm/4.2.0
+
 
 
 ######### NOTE: run this script with sbatch command #############
@@ -26,6 +29,6 @@ LOGS="./build/logs/"
 
 mkdir $LOGS
 
-$BINPATH/vec_mul_vec   --benchmark_perf_counters="L1-dcache-load-misses,L1-dcache-loads" --benchmark_format=csv --benchmark_out_format=csv  --benchmark_out=$LOGS/vec_add.csv
+$BINPATH/vec_mul_vec   --benchmark_format=csv --benchmark_out_format=csv  --benchmark_out=$LOGS/vec_add.csv
 
 ###  plotting: add your plots here if needed
