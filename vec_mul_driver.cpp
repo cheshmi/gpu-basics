@@ -76,7 +76,6 @@ const char *KernelSource = "\n" \
 static void BM_VECMUL_OPENCL(benchmark::State &state,
                                void (*vecImpl1)(std::vector<float> a, std::vector<float> b, std::vector<float> &c, int num_threads)) {
     int m = state.range(0);
-    int num_threads = state.range(1);
     std::vector<float> A(m);
     std::vector<float> B(m);
     std::vector<float> C(m);
@@ -124,7 +123,6 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
     // Get device information
     char device_name[1024];
     clGetDeviceInfo(device_id, CL_DEVICE_NAME, sizeof(device_name), device_name, NULL);
-    std::cout << "GPU Device: " << device_name << std::endl;
 
     int err;
 // Create a compute context
@@ -140,8 +138,6 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
     command_queue = clCreateCommandQueueWithProperties(context, device_id,
                                                        properties, &err);
     checkError(err, "Creating command queue");
-
-
 
 
     // Create the compute program from the source buffer
@@ -160,8 +156,6 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
         printf("%s\n", buffer);
     }
 
-    std::cout << std::endl;
-
     // Create the compute kernel from the program
     kernel = clCreateKernel(program, "vadd", &err);
     checkError(err, "Creating kernel");
@@ -177,42 +171,29 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
     clSetKernelArg(kernel, 2, sizeof(cl_mem), (void *)&buffer_c);
     clSetKernelArg(kernel, 3, sizeof(int), (void *)&m);
 
-
-
     size_t global_work_size = m;
-
-    //clFinish(command_queue);
-
-
-
+    // add gpu name to the log
+    state.SetLabel(device_name);
     for (auto _: state) {
-        auto begin = omp_get_wtime();
-        //vecImpl1(A, B, C, num_threads);
         // Execute kernel
         cl_event event;
         cl_ulong time_start = 0;
         cl_ulong time_end = 0;
 
-
         clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &global_work_size, NULL, 0, NULL, NULL);
 
         // Wait for kernel to finish
-        clWaitForEvents(1, &event);
+        clFinish(command_queue);
         clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_START, sizeof(time_start), &time_start, NULL);
         clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_END, sizeof(time_end), &time_end, NULL);
-
-
-
         cl_ulong elapsed = time_end - time_start;
         // Read results back to host
         clEnqueueReadBuffer(command_queue, buffer_c, CL_TRUE, 0, m * sizeof(float), C.data(), 0, NULL, NULL);
 
         // Print first 10 elements of the result
-        for (int i = 0; i < 10; ++i) {
-            std::cout << C[i] << " ";
-        }
-        //std::cout << std::endl;
-        //auto elapsed = omp_get_wtime() - begin;
+//        for (int i = 0; i < 10; ++i) {
+//            std::cout << C[i] << " ";
+//        }
         state.SetIterationTime(elapsed);
     }
 
@@ -221,18 +202,19 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
     clReleaseProgram(program);
     clReleaseCommandQueue(command_queue);
     clReleaseContext(context);
+    clReleaseMemObject(buffer_a);
+    clReleaseMemObject(buffer_b);
+    clReleaseMemObject(buffer_c);
+    free(platforms);
+
 }
 
 
-//BENCHMARK_CAPTURE(BM_VECMUL, baseline_vec_mul, swiftware::hpp::vec_mul)->Ranges({{2<<18, 2<<20}});
-//BENCHMARK_CAPTURE(BM_VECMUL, unrolled8_scalarized_vec_mul, swiftware::hpp::vec_mul_unrolled8_scalarized)->Ranges({{2<<18, 2<<20}});
-//
-//
-//BENCHMARK_CAPTURE(BM_VECMUL_PARALLEL, parallel_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime();
-//BENCHMARK_CAPTURE(BM_VECMUL_PARALLEL, unrolled8_scalarized_parallel_vec_mul, swiftware::hpp::vec_mul_unrolled8_scalarized_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime();
-//
+BENCHMARK_CAPTURE(BM_VECMUL, baseline_vec_mul, swiftware::hpp::vec_mul)->Ranges({{2<<18, 2<<20}});
 
-BENCHMARK_CAPTURE(BM_VECMUL_OPENCL, opencl_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime()->Iterations(100);
+BENCHMARK_CAPTURE(BM_VECMUL_PARALLEL, parallel_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime();
+
+BENCHMARK_CAPTURE(BM_VECMUL_OPENCL, opencl_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}})->UseManualTime()->Iterations(100);
 
 
 //
