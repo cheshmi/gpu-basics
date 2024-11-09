@@ -182,13 +182,14 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
     size_t global_work_size = m;
 
     //clFinish(command_queue);
-    cl_event event;
+
 
 
     for (auto _: state) {
         auto begin = omp_get_wtime();
         //vecImpl1(A, B, C, num_threads);
         // Execute kernel
+        cl_event event;
         cl_ulong time_start = 0;
         cl_ulong time_end = 0;
 
@@ -207,9 +208,9 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
         clEnqueueReadBuffer(command_queue, buffer_c, CL_TRUE, 0, m * sizeof(float), C.data(), 0, NULL, NULL);
 
         // Print first 10 elements of the result
-//        for (int i = 0; i < 10; ++i) {
-//            std::cout << C[i] << " ";
-//        }
+        for (int i = 0; i < 10; ++i) {
+            std::cout << C[i] << " ";
+        }
         //std::cout << std::endl;
         //auto elapsed = omp_get_wtime() - begin;
         state.SetIterationTime(elapsed);
@@ -223,13 +224,13 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
 }
 
 
-BENCHMARK_CAPTURE(BM_VECMUL, baseline_vec_mul, swiftware::hpp::vec_mul)->Ranges({{2<<18, 2<<20}});
-BENCHMARK_CAPTURE(BM_VECMUL, unrolled8_scalarized_vec_mul, swiftware::hpp::vec_mul_unrolled8_scalarized)->Ranges({{2<<18, 2<<20}});
-
-
-BENCHMARK_CAPTURE(BM_VECMUL_PARALLEL, parallel_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime();
-BENCHMARK_CAPTURE(BM_VECMUL_PARALLEL, unrolled8_scalarized_parallel_vec_mul, swiftware::hpp::vec_mul_unrolled8_scalarized_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime();
-
+//BENCHMARK_CAPTURE(BM_VECMUL, baseline_vec_mul, swiftware::hpp::vec_mul)->Ranges({{2<<18, 2<<20}});
+//BENCHMARK_CAPTURE(BM_VECMUL, unrolled8_scalarized_vec_mul, swiftware::hpp::vec_mul_unrolled8_scalarized)->Ranges({{2<<18, 2<<20}});
+//
+//
+//BENCHMARK_CAPTURE(BM_VECMUL_PARALLEL, parallel_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime();
+//BENCHMARK_CAPTURE(BM_VECMUL_PARALLEL, unrolled8_scalarized_parallel_vec_mul, swiftware::hpp::vec_mul_unrolled8_scalarized_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime();
+//
 
 BENCHMARK_CAPTURE(BM_VECMUL_OPENCL, opencl_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime()->Iterations(100);
 
