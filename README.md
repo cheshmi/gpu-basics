@@ -1,1 +1,1 @@
-# gpu-basics
+# GPU Programming
