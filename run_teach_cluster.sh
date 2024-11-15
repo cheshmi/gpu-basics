@@ -7,7 +7,7 @@
 #SBATCH --job-name="gputut"
 #SBATCH --nodes=1
 #SBATCH --output="gputut.%j.%N.out"
-#SBATCH -t 00:15:00
+#SBATCH -t 00:30:00
 ##################### SLURM (do not change) ^  #####################
 
 
