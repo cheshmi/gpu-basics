@@ -1,0 +1,15 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=git
+command=/home/albakrih/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake;-P;/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-subbuild/googlebenchmark-populate-prefix/tmp/googlebenchmark-populate-gitclone.cmake
+source_dir=/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-src
+work_dir=/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps
+repository=https://github.com/google/benchmark.git
+remote=origin
+init_submodules=TRUE
+recurse_submodules=--recursive
+submodules=
+CMP0097=NEW
+

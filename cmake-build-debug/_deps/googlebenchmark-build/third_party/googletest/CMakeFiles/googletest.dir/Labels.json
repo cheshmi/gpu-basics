@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/CMakeFiles/googletest"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/CMakeFiles/googletest.rule"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/CMakeFiles/googletest-complete.rule"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-build.rule"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-configure.rule"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-download.rule"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-install.rule"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-mkdir.rule"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-patch.rule"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-test.rule"
+		},
+		{
+			"file" : "/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest"
+		],
+		"name" : "googletest"
+	}
+}

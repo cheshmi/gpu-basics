@@ -1,0 +1,14 @@
+# Target labels
+ googletest
+# Source files and their labels
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/CMakeFiles/googletest
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/CMakeFiles/googletest.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/CMakeFiles/googletest-complete.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-build.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-configure.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-download.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-install.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-mkdir.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-patch.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-test.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/googlebenchmark-build/third_party/googletest/stamp/googletest-update.rule

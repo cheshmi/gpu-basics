@@ -1,0 +1,14 @@
+# Target labels
+ argparse-populate
+# Source files and their labels
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/CMakeFiles/argparse-populate
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/CMakeFiles/argparse-populate.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/CMakeFiles/argparse-populate-complete.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-build.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-configure.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-download.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-install.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-mkdir.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-patch.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-test.rule
+/home/albakrih/Desktop/TA/2024/4sp4/gpu-basics/cmake-build-debug/_deps/argparse-subbuild/argparse-populate-prefix/src/argparse-populate-stamp/argparse-populate-update.rule

@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "_deps/argparse-build/test",
+		"source" : "cmake-build-debug/_deps/argparse-src/test"
+	}
+}
