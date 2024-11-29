@@ -38,7 +38,13 @@ FetchContent_MakeAvailable(googlebenchmark)
 
 project(gpu C CXX )
 
-find_package(OpenCL REQUIRED)
+find_package(OpenCL OPTIONAL_COMPONENTS)
+if(OpenCL_FOUND)
+    message(STATUS "OpenCL found: ${OpenCL_VERSION_STRING}")
+    add_definitions(-D__OPENCL__)
+else()
+    message(STATUS "OpenCL not found, proceeding without OpenCL support")
+endif()
 find_package(OpenMP REQUIRED)
 
 include_directories(

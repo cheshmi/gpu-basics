@@ -2,14 +2,16 @@
 // Created by Kazem on 2024-09-25.
 //
 
+#ifdef __OPENCL__
 #ifdef __APPLE__
 #include <OpenCL/cl.hpp>
 #else
 #include <CL/opencl.h>
 #endif
+#endif
 
 // if cuda is available
-#ifdef __CUDACC__
+#ifdef __CUDA__
 #include <cuda_runtime.h>
 #endif
 
@@ -63,7 +65,7 @@ static void BM_VECMUL_PARALLEL(benchmark::State &state,
     }
 }
 
-
+#ifdef __OPENCL__
 const char *KernelSource = "\n" \
 "__kernel void vadd(                                                 \n" \
 "   __global float* a,                                                  \n" \
@@ -213,9 +215,9 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
     free(platforms);
 
 }
+#endif
 
-
-#ifdef __CUDACC__
+#ifdef __CUDA__
 // CUDA kernel function for element-wise vector multiplication
 __global__ void vectorMultiply(float* A, float* B, float* C, int N) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -302,8 +304,13 @@ BENCHMARK_CAPTURE(BM_VECMUL, baseline_vec_mul, swiftware::hpp::vec_mul)->Ranges(
 
 BENCHMARK_CAPTURE(BM_VECMUL_PARALLEL, parallel_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime();
 
+#ifdef __OPENCL__
 BENCHMARK_CAPTURE(BM_VECMUL_OPENCL, opencl_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}})->UseManualTime()->Iterations(100);
+#endif
 
+#ifdef __CUDA__
+BENCHMARK_CAPTURE(BM_VECMUL_CUDA, cuda_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}})->UseManualTime();
+#endif
 
 //
 BENCHMARK_MAIN();
