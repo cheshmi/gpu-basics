@@ -2,14 +2,17 @@
 // Created by Kazem on 2024-09-25.
 //
 
+#ifdef __OPENCL__
 #ifdef __APPLE__
 #include <OpenCL/cl.hpp>
 #else
 #include <CL/opencl.h>
 #endif
+#include "err_code.h"
+#endif
 
 // if cuda is available
-#ifdef __CUDACC__
+#ifdef __CUDA__
 #include <cuda_runtime.h>
 #endif
 
@@ -18,7 +21,7 @@
 #include <chrono>
 #include <omp.h>
 #include "vec_mul.h"
-#include "err_code.h"
+
 
 int num_teach_threads = 8;
 
@@ -63,7 +66,7 @@ static void BM_VECMUL_PARALLEL(benchmark::State &state,
     }
 }
 
-
+#ifdef __OPENCL__
 const char *KernelSource = "\n" \
 "__kernel void vadd(                                                 \n" \
 "   __global float* a,                                                  \n" \
@@ -213,17 +216,12 @@ static void BM_VECMUL_OPENCL(benchmark::State &state,
     free(platforms);
 
 }
+#endif
 
+#ifdef __CUDA__
+// placeholder for the kernel
+extern float vectorMultiplyWrapper(float *a, float *b, float *c, int n);
 
-#ifdef __CUDACC__
-// CUDA kernel function for element-wise vector multiplication
-__global__ void vectorMultiply(float* A, float* B, float* C, int N) {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-
-    if (idx < N) {
-        C[idx] = A[idx] * B[idx];  // Element-wise multiplication
-    }
-}
 
 static void BM_VECMUL_CUDA(benchmark::State &state,
                              void (*vecImpl1)(std::vector<float> a, std::vector<float> b, std::vector<float> &c, int num_threads)) {
@@ -238,62 +236,16 @@ static void BM_VECMUL_CUDA(benchmark::State &state,
     for (int i = 0; i < m; ++i) {
         B[i] = 1.0;
     }
-    // check if cuda is available
-    int device_count;
-    cudaGetDeviceCount(&device_count);
-    if (device_count == 0) {
-        std::cerr << "No CUDA device found." << std::endl;
-    }
-    // get the gpu name
-    cudaDeviceProp prop;
-    cudaGetDeviceProperties(&prop, 0);
-    const char *device_name = prop.name;
 
-
-    float *d_A, *d_B, *d_C;
-    cudaMalloc((void**)&d_A, size);
-    cudaMalloc((void**)&d_B, size);
-    cudaMalloc((void**)&d_C, size);
-
-    // Copy input vectors from host to device
-    cudaMemcpy(d_A, A, size, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_B, B, size, cudaMemcpyHostToDevice);
-
-    // Launch the kernel with enough blocks and threads
-    int threadsPerBlock = 256;
-    int blocksPerGrid = (m + threadsPerBlock - 1) / threadsPerBlock;
+    const char *device_name = "GPU";
 
     // add gpu name to the log
     state.SetLabel(device_name);
     for (auto _: state) {
-        // cuda event to measure time
-        cudaEvent_t start, stop;
-
-        cudaEventCreate(&start);
-        vectorMultiply<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, m);
-
-
-        // Wait for kernel to finish
-        cudaDeviceSynchronize();
-        cudaEventCreate(&stop);
-        float elapsed;
-        cudaEventElapsedTime(&elapsed, start, stop);
-
-        // Copy the result from device to host
-        cudaMemcpy(C, d_C, size, cudaMemcpyDeviceToHost);
-
-
-        // Print first 10 elements of the result
-//        for (int i = 0; i < 10; ++i) {
-//            std::cout << C[i] << " ";
-//        }
+        float elapsed = vectorMultiplyWrapper(A.data(), B.data(), C.data(), m);
         state.SetIterationTime(elapsed);
     }
 
-    // Clean up
-    cudaFree(d_A);
-    cudaFree(d_B);
-    cudaFree(d_C);
 }
 #endif
 
@@ -302,8 +254,13 @@ BENCHMARK_CAPTURE(BM_VECMUL, baseline_vec_mul, swiftware::hpp::vec_mul)->Ranges(
 
 BENCHMARK_CAPTURE(BM_VECMUL_PARALLEL, parallel_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}, {4, 8}})->UseManualTime();
 
+#ifdef __OPENCL__
 BENCHMARK_CAPTURE(BM_VECMUL_OPENCL, opencl_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}})->UseManualTime()->Iterations(100);
+#endif
 
+#ifdef __CUDA__
+BENCHMARK_CAPTURE(BM_VECMUL_CUDA, cuda_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}})->UseManualTime()->Iterations(100);
+#endif
 
 //
 BENCHMARK_MAIN();
