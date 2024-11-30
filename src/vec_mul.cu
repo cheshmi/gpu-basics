@@ -48,9 +48,9 @@ float vectorMultiplyWrapper(float* h_A, float* h_B, float* h_C, int N) {
     cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
 
     // Output the result (for demonstration, print the first 10 elements)
-    for (int i = 0; i < 10; i++) {
-        std::cout << "C[" << i << "] = " << h_C[i] << std::endl;
-    }
+//    for (int i = 0; i < 10; i++) {
+//        std::cout << "C[" << i << "] = " << h_C[i] << std::endl;
+//    }
 
     // Free memory
     cudaFree(d_A);

@@ -81,13 +81,23 @@ include_directories(
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(vec_mul_vec
-        ${CMAKE_SOURCE_DIR}/vec_mul_driver.cpp
-        ${CMAKE_SOURCE_DIR}/src/vec_mul.cpp
-)
+if (CUDA_FOUND AND CUDAToolkit_FOUND)
+    add_executable(vec_mul_vec
+            ${CMAKE_SOURCE_DIR}/src/vec_mul.cu
+            ${CMAKE_SOURCE_DIR}/vec_mul_driver.cpp
+            ${CMAKE_SOURCE_DIR}/src/vec_mul.cpp
+    )
+else()
+    add_executable(vec_mul_vec
+            ${CMAKE_SOURCE_DIR}/vec_mul_driver.cpp
+            ${CMAKE_SOURCE_DIR}/src/vec_mul.cpp
+    )
+
+endif()
 
 target_link_libraries(vec_mul_vec
         benchmark::benchmark
+        OpenMP::OpenMP_CXX
 )
 
 if(OpenCL_FOUND)
@@ -102,18 +112,10 @@ if(OpenCL_FOUND)
 
     target_link_libraries(vec_mul_vec
             benchmark::benchmark
-            OpenMP::OpenMP_CXX
             OpenCL::OpenCL
     )
 
 else()
     message(STATUS "OpenCL not found, proceeding without OpenCL support")
-endif()
-
-
-if (CUDA_FOUND AND CUDAToolkit_FOUND)
-    add_executable(vec_mul_vec
-            ${CMAKE_SOURCE_DIR}/src/vec_mul.cu
-    )
 endif()
 

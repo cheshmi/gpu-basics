@@ -259,7 +259,7 @@ BENCHMARK_CAPTURE(BM_VECMUL_OPENCL, opencl_vec_mul, swiftware::hpp::vec_mul_para
 #endif
 
 #ifdef __CUDA__
-BENCHMARK_CAPTURE(BM_VECMUL_CUDA, cuda_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}})->UseManualTime();
+BENCHMARK_CAPTURE(BM_VECMUL_CUDA, cuda_vec_mul, swiftware::hpp::vec_mul_parallel)->Ranges({{2<<18, 2<<20}})->UseManualTime()->Iterations(100);
 #endif
 
 //
