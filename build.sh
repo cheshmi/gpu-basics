@@ -35,7 +35,7 @@ SHAREDDIR=/home/l/lcl_uotce4sp4//ce4sp4starter/
 mkdir build
 # shellcheck disable=SC2164
 cd build
-/home/l/lcl_uotce4sp4//ce4sp4starter/cmake/bin/cmake  -DCMAKE_PREFIX_PATH=${SHAREDDIR}/libpfm4/ -DPROFILING_ENABLED=ON  -DCMAKE_BUILD_TYPE=Release  ..
+/home/l/lcl_uotce4sp4//ce4sp4starter/cmake/bin/cmake  -DCMAKE_PREFIX_PATH=${SHAREDDIR}/libpfm4/ -DPROFILING_ENABLED=OFF  -DCMAKE_BUILD_TYPE=Release  ..
 make -j 4
 
 cd ..

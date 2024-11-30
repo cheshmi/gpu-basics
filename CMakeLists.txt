@@ -39,12 +39,7 @@ FetchContent_MakeAvailable(googlebenchmark)
 project(gpu C CXX )
 
 find_package(OpenCL OPTIONAL_COMPONENTS)
-if(OpenCL_FOUND)
-    message(STATUS "OpenCL found: ${OpenCL_VERSION_STRING}")
-    add_definitions(-D__OPENCL__)
-else()
-    message(STATUS "OpenCL not found, proceeding without OpenCL support")
-endif()
+
 find_package(OpenMP REQUIRED)
 
 include_directories(
@@ -61,16 +56,24 @@ add_executable(vec_mul_vec
 )
 
 
+if(OpenCL_FOUND)
+    message(STATUS "OpenCL found: ${OpenCL_VERSION_STRING}")
+    add_definitions(-D__OPENCL__)
+    target_include_directories(vec_mul_vec PUBLIC ${OpenCL_INCLUDE_DIRS})
+    target_link_directories(vec_mul_vec PUBLIC ${OpenCL_LIBRARY})
 
-target_include_directories(vec_mul_vec PUBLIC ${OpenCL_INCLUDE_DIRS})
-target_link_directories(vec_mul_vec PUBLIC ${OpenCL_LIBRARY})
+
+    target_link_libraries(vec_mul_vec
+            benchmark::benchmark
+            OpenMP::OpenMP_CXX
+            OpenCL::OpenCL
+    )
+
+else()
+    message(STATUS "OpenCL not found, proceeding without OpenCL support")
+endif()
 
 
-target_link_libraries(vec_mul_vec
-        benchmark::benchmark
-        OpenMP::OpenMP_CXX
-	    OpenCL::OpenCL
-)
 
 #check CUDA version
 find_package(CUDA OPTIONAL_COMPONENTS)
@@ -87,11 +90,16 @@ if (CUDA_FOUND AND CUDAToolkit_FOUND)
     set(CMAKE_CUDA_STANDARD_REQUIRED TRUE)
     set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
     set(CMAKE_CUDA_ARCHITECTURES 75 80 86)
+    message(STATUS "CUDA_ARCHITECTURES: ${CMAKE_CUDA_ARCHITECTURES}")
 
+    include_directories(${CUDA_INCLUDE_DIRS})
+    include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+    message(STATUS "CUDA_INCLUDE_DIRS: ${CUDA_INCLUDE_DIRS}")
+    message(STATUS "CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES: ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}")
+#    add_executable(vec_mul_vec
+#            ${CMAKE_SOURCE_DIR}/src/vec_mul.cu
+#    )
 
-    add_executable(vec_mul_vec_cuda
-            ${CMAKE_SOURCE_DIR}/src/vec_mul_cuda.cu
-    )
 
 else()
     message(STATUS "CUDA not found, proceeding without CUDA support")

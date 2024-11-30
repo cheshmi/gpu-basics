@@ -227,6 +227,7 @@ __global__ void vectorMultiply(float* A, float* B, float* C, int N) {
     }
 }
 
+
 static void BM_VECMUL_CUDA(benchmark::State &state,
                              void (*vecImpl1)(std::vector<float> a, std::vector<float> b, std::vector<float> &c, int num_threads)) {
     int m = state.range(0);
